@@ -1,0 +1,22 @@
+name: Deployment
+
+on:
+  push:
+    branches:
+      - master
+
+env:
+  IMAGE_NAME: goddb
+
+jobs:
+  push:
+    name: Docker build, push and deploy
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: read
+      packages: write
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
