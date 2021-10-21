@@ -28,7 +28,10 @@ func (receiver Ticker) Schedule() {
 				return
 			case t := <-receiver.ticker.C:
 				fmt.Println("Tick at", t)
-				receiver.service.Save()
+				err := receiver.service.Save()
+				if err != nil {
+					fmt.Println("error while saving current state", t)
+				}
 			}
 		}
 	}()
