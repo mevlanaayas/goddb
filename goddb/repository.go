@@ -5,4 +5,5 @@ type Repository interface {
 	Retrieve(key string) (error, string)
 	Flush()
 	Save()
+	Load()
 }
