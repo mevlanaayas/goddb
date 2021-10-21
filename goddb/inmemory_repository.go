@@ -1,5 +1,7 @@
 package goddb
 
+import "fmt"
+
 type inMemoryRepository struct {
 	storage map[string]string
 }
@@ -25,4 +27,9 @@ func (receiver inMemoryRepository) Retrieve(key string) (error, string) {
 
 func (receiver inMemoryRepository) Flush() {
 	receiver.storage = make(map[string]string)
+}
+
+func (receiver inMemoryRepository) Save() {
+	fmt.Printf("saving...")
+	// TODO: save all key:values to json file
 }

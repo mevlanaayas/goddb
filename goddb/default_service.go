@@ -19,3 +19,7 @@ func (receiver defaultService) Retrieve(request RetrieveValue) (error, string) {
 func (receiver defaultService) Flush() {
 	receiver.repository.Flush()
 }
+
+func (receiver defaultService) Save() {
+	receiver.repository.Save()
+}
