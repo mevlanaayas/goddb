@@ -16,10 +16,14 @@ func (receiver defaultService) Retrieve(request RetrieveValue) (error, string) {
 	return receiver.repository.Retrieve(request.Key)
 }
 
-func (receiver defaultService) Flush() {
-	receiver.repository.Flush()
+func (receiver defaultService) Flush() error {
+	return receiver.repository.Flush()
 }
 
-func (receiver defaultService) Save() {
-	receiver.repository.Save()
+func (receiver defaultService) Save() error {
+	return receiver.repository.Save()
+}
+
+func (receiver defaultService) Load() error {
+	return receiver.repository.Load()
 }

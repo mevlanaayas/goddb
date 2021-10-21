@@ -7,7 +7,7 @@ type inMemoryRepository struct {
 }
 
 func NewInMemoryRepository() Repository {
-	return inMemoryRepository{
+	return &inMemoryRepository{
 		storage: make(map[string]string),
 	}
 }
@@ -21,16 +21,19 @@ func (receiver inMemoryRepository) Retrieve(key string) (error, string) {
 	return nil, receiver.storage[key]
 }
 
-func (receiver inMemoryRepository) Flush() {
+func (receiver *inMemoryRepository) Flush() error {
 	receiver.storage = make(map[string]string)
+	return nil
 }
 
-func (receiver inMemoryRepository) Save() {
+func (receiver inMemoryRepository) Save() error {
 	fmt.Printf("saving...")
 	// TODO: save all key:values to json file
+	return nil
 }
 
-func (receiver inMemoryRepository) Load() {
+func (receiver inMemoryRepository) Load() error {
 	fmt.Printf("loading...")
 	// TODO: get all key:values from json file
+	return nil
 }
