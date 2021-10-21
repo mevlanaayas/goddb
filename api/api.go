@@ -22,7 +22,7 @@ func NewApi(config *config.Config, handler Handler) *Api {
 	api.routes = append(api.routes, Route{
 		Path:    "/",
 		Method:  "POST",
-		Handler: api.handler.Save,
+		Handler: api.handler.Put,
 	})
 	api.routes = append(api.routes, Route{
 		Path:    "/",

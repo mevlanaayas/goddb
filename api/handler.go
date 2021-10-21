@@ -14,10 +14,10 @@ func NewHandler(service goddb.Service) Handler {
 	return Handler{service: service}
 }
 
-func (receiver Handler) Save(w http.ResponseWriter, req *http.Request) {
+func (receiver Handler) Put(w http.ResponseWriter, req *http.Request) {
 	fmt.Println("save")
 	/*
-		err := receiver.service.Save(SaveValue{})
+		err := receiver.service.Put(SaveValue{})
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 			return
