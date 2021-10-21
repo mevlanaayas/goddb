@@ -1,15 +1,16 @@
-package goddb
+package api
 
 import (
 	"fmt"
+	"goddb/goddb"
 	"net/http"
 )
 
 type Handler struct {
-	service Service
+	service goddb.Service
 }
 
-func NewHandler(service Service) Handler {
+func NewHandler(service goddb.Service) Handler {
 	return Handler{service: service}
 }
 

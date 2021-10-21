@@ -4,7 +4,6 @@ import (
 	"fmt"
 	"goddb/api"
 	"goddb/config"
-	"goddb/goddb"
 )
 
 func Run() error {
@@ -14,7 +13,7 @@ func Run() error {
 		return fmt.Errorf("error while parsing config \n\t%v", err)
 	}
 
-	server := api.NewApi(&cfg, goddb.Handler{})
+	server := api.NewApi(&cfg, api.Handler{})
 
 	if err := server.Start(); err != nil {
 		return fmt.Errorf("error while starting server \n\t%v", err)

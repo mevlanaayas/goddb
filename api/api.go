@@ -4,17 +4,16 @@ import (
 	"encoding/json"
 	"fmt"
 	"goddb/config"
-	"goddb/goddb"
 	"net/http"
 )
 
 type Api struct {
 	config  *config.Config
-	handler goddb.Handler
+	handler Handler
 	routes  []Route
 }
 
-func NewApi(config *config.Config, handler goddb.Handler) *Api {
+func NewApi(config *config.Config, handler Handler) *Api {
 	api := &Api{
 		config:  config,
 		handler: handler,
