@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"goddb/config"
 	"net/http"
+	"time"
 )
 
 type Api struct {
@@ -69,14 +70,22 @@ func (receiver *Api) routingMiddleware(w http.ResponseWriter, r *http.Request) {
 
 	path := r.URL.Path
 	method := r.Method
-	fmt.Printf("path: %s, method: %s\n", path, method)
+	fmt.Printf("incomming request path: %s, method: %s \n", path, method)
 	for _, route := range receiver.routes {
 		if route.Path == path && route.Method == method {
-			route.Handler(w, r)
+			loggingMiddleware(route, w, r)
 		}
 	}
 }
 
 func contentTypeMiddleware(w http.ResponseWriter, _ *http.Request) {
 	w.Header().Add("Content-Type", "application/json")
+}
+
+func loggingMiddleware(route Route, w http.ResponseWriter, r *http.Request) {
+	startTime := time.Now()
+	fmt.Printf("%v request started path: %s, method: %s\n", time.Now(), route.Path, route.Method)
+	route.Handler(w, r)
+	elapsed := time.Since(startTime)
+	fmt.Printf("%v request finished execution time: %s path: %s, method: %s\n", time.Now(), elapsed, route.Path, route.Method)
 }

@@ -16,18 +16,25 @@ func NewHandler(service goddb.Service) Handler {
 	return Handler{service: service}
 }
 
-// TODO: fix error hanling
 func (receiver Handler) Put(w http.ResponseWriter, req *http.Request) {
-	fmt.Println("save")
 	requestBody, err := ioutil.ReadAll(req.Body)
 	if err != nil {
-		http.Error(w, err.Error(), http.StatusBadRequest)
+		w.WriteHeader(http.StatusBadRequest)
+		_ = json.NewEncoder(w).Encode(map[string]interface{}{
+			"success": false,
+			"message": fmt.Sprintf("error while reading request body %v", err.Error()),
+		})
 		return
 	}
+
 	var saveRequest goddb.SaveValue
 	err = json.Unmarshal(requestBody, &saveRequest)
 	if err != nil {
-		http.Error(w, err.Error(), http.StatusBadRequest)
+		w.WriteHeader(http.StatusBadRequest)
+		_ = json.NewEncoder(w).Encode(map[string]interface{}{
+			"success": false,
+			"message": fmt.Sprintf("error while parsing request body %v", err.Error()),
+		})
 		return
 	}
 
@@ -36,19 +43,15 @@ func (receiver Handler) Put(w http.ResponseWriter, req *http.Request) {
 		w.WriteHeader(http.StatusInternalServerError)
 		_ = json.NewEncoder(w).Encode(map[string]interface{}{
 			"success": false,
-			"message": err.Error(),
+			"message": fmt.Sprintf("error while saving key:value %v", err.Error()),
 		})
 		return
 	}
 	w.WriteHeader(201)
-	err = json.NewEncoder(w).Encode(map[string]interface{}{
+	_ = json.NewEncoder(w).Encode(map[string]interface{}{
 		"success": true,
-		"result":  "xd",
+		"message": "key:value saved",
 	})
-	if err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
-		return
-	}
 }
 
 func (receiver Handler) Retrieve(w http.ResponseWriter, req *http.Request) {
