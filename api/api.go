@@ -47,7 +47,7 @@ func NewApi(config *config.Config, handler Handler) *Api {
 }
 
 func (receiver *Api) Start() error {
-	fmt.Printf("Listening on port %d\n", receiver.config.Port)
+	fmt.Printf("%v listening on port %d\n", time.Now(), receiver.config.Port)
 	err := http.ListenAndServe(fmt.Sprintf(":%d", receiver.config.Port), nil)
 	return fmt.Errorf("error while serving http: %v", err)
 }
