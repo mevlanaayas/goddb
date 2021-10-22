@@ -15,7 +15,7 @@ type Ticker struct {
 func NewTicker(service goddb.Service) Ticker {
 	return Ticker{
 		service:     service,
-		ticker:      time.NewTicker(10 * time.Minute),
+		ticker:      time.NewTicker(15 * time.Second),
 		syncChannel: make(chan bool),
 	}
 }
@@ -27,10 +27,10 @@ func (receiver Ticker) Schedule() {
 			case <-receiver.syncChannel:
 				return
 			case t := <-receiver.ticker.C:
-				fmt.Println("Tick at", t)
+				fmt.Printf("%v scheduler calling handler method \n", t)
 				err := receiver.service.Save()
 				if err != nil {
-					fmt.Println("error while saving current state", t)
+					fmt.Printf("%v error while saving current state %v\n\t", t, err)
 				}
 			}
 		}

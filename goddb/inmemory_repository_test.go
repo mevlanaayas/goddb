@@ -126,7 +126,7 @@ func Test_inMemoryRepository_Flush(t *testing.T) {
 	}
 }
 
-func Test_inMemoryRepository_Save(t *testing.T) {
+func Test_inMemoryRepository_Get(t *testing.T) {
 	storage := make(map[string]string)
 	storage["testKey"] = "testValue"
 	storage["testKey1"] = "testValue1"
@@ -136,39 +136,67 @@ func Test_inMemoryRepository_Save(t *testing.T) {
 		storage map[string]string
 	}
 	tests := []struct {
-		name   string
-		fields fields
+		name    string
+		fields  fields
+		wantErr bool
 	}{
 		{
-			name: "save should save all key:values from map to json file",
+			name: "get should return all key:values from map",
 			fields: fields{
 				storage: storage,
 			},
+			wantErr: false,
 		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			_ = inMemoryRepository{
+			receiver := inMemoryRepository{
 				storage: tt.fields.storage,
+			}
+			err2, values := receiver.Get()
+			if err := err2; (err != nil) != tt.wantErr {
+				t.Errorf("Get() error = %v, wantErr %v", err, tt.wantErr)
+			}
+			if !reflect.DeepEqual(values, storage) {
+				t.Errorf("Get() error. Expected map and actual map is different")
 			}
 		})
 	}
 }
 
 func Test_inMemoryRepository_Load(t *testing.T) {
+	values := make(map[string]string)
+	values["testKey"] = "testValue"
+	values["testKey1"] = "testValue1"
+	values["testKey2"] = "testValue2"
+
 	type fields struct {
 		storage map[string]string
 	}
 	tests := []struct {
-		name   string
-		fields fields
+		name    string
+		fields  fields
+		wantErr bool
 	}{
-		// TODO: Add test cases.
+		{
+			name: "load should save all key:values to storage",
+			fields: fields{
+				storage: make(map[string]string),
+			},
+			wantErr: false,
+		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			_ = inMemoryRepository{
+			receiver := inMemoryRepository{
 				storage: tt.fields.storage,
+			}
+			err2 := receiver.Load(values)
+			if err := err2; (err != nil) != tt.wantErr {
+				t.Errorf("Load() error = %v, wantErr %v", err, tt.wantErr)
+			}
+			if !reflect.DeepEqual(values, receiver.storage) {
+				t.Errorf("Load() error. Expected map and actual map is different")
 			}
 		})
 	}

@@ -1,7 +1,5 @@
 package goddb
 
-import "fmt"
-
 type inMemoryRepository struct {
 	storage map[string]string
 }
@@ -26,14 +24,17 @@ func (receiver *inMemoryRepository) Flush() error {
 	return nil
 }
 
-func (receiver inMemoryRepository) Save() error {
-	fmt.Printf("saving...")
-	// TODO: save all key:values to json file
-	return nil
+func (receiver inMemoryRepository) Get() (error, map[string]string) {
+	result := make(map[string]string)
+	for key, value := range receiver.storage {
+		result[key] = value
+	}
+	return nil, result
 }
 
-func (receiver inMemoryRepository) Load() error {
-	fmt.Printf("loading...")
-	// TODO: get all key:values from json file
+func (receiver *inMemoryRepository) Load(values map[string]string) error {
+	for key, value := range values {
+		receiver.storage[key] = value
+	}
 	return nil
 }

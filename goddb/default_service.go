@@ -1,6 +1,8 @@
 package goddb
 
-import "fmt"
+import (
+	"fmt"
+)
 
 type defaultService struct {
 	repository Repository
@@ -43,9 +45,22 @@ func (receiver defaultService) Flush() error {
 }
 
 func (receiver defaultService) Save() error {
-	return receiver.repository.Save()
+	/*
+		jsonString, err := json.Marshal(receiver.)
+		fmt.Println(err)
+
+		return &InternalError{
+			m: "",
+			c: 0,
+			t: fmt.Errorf("df"),
+		}
+
+	*/
+	// return receiver.repository.Get()
+	return nil
 }
 
 func (receiver defaultService) Load() error {
-	return receiver.repository.Load()
+	return nil
+	// return receiver.repository.Load()
 }
