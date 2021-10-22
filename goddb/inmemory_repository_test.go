@@ -49,7 +49,7 @@ func Test_inMemoryRepository_Put(t *testing.T) {
 	}
 }
 
-func Test_inMemoryRepository_Retrieve(t *testing.T) {
+func Test_inMemoryRepository_Get(t *testing.T) {
 	storage := make(map[string]string)
 	storage["testKey"] = "testValue"
 	type fields struct {
@@ -66,7 +66,7 @@ func Test_inMemoryRepository_Retrieve(t *testing.T) {
 		want1  string
 	}{
 		{
-			name: "retrieve should get value by key from map",
+			name: "Get should get value by key from map",
 			fields: fields{
 				storage: storage,
 			},
@@ -131,7 +131,7 @@ func Test_inMemoryRepository_Flush(t *testing.T) {
 	}
 }
 
-func Test_inMemoryRepository_Get(t *testing.T) {
+func Test_inMemoryRepository_GetAll(t *testing.T) {
 	storage := make(map[string]string)
 	storage["testKey"] = "testValue"
 	storage["testKey1"] = "testValue1"
@@ -146,7 +146,7 @@ func Test_inMemoryRepository_Get(t *testing.T) {
 		wantErr bool
 	}{
 		{
-			name: "get should return all key:values from map",
+			name: "GetAll should return all key:values from map",
 			fields: fields{
 				storage: storage,
 			},
@@ -169,7 +169,7 @@ func Test_inMemoryRepository_Get(t *testing.T) {
 	}
 }
 
-func Test_inMemoryRepository_Load(t *testing.T) {
+func Test_inMemoryRepository_PutAll(t *testing.T) {
 	values := make(map[string]string)
 	values["testKey"] = "testValue"
 	values["testKey1"] = "testValue1"
@@ -184,7 +184,7 @@ func Test_inMemoryRepository_Load(t *testing.T) {
 		wantErr bool
 	}{
 		{
-			name: "load should save all key:values to storage",
+			name: "PutAll should save all key:values to storage",
 			fields: fields{
 				storage: make(map[string]string),
 			},
