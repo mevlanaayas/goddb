@@ -10,7 +10,7 @@ type defaultStorageService struct {
 	persistenceService PersistenceService
 }
 
-func NewService(repository Repository, persistenceService PersistenceService) StorageService {
+func NewDefaultStorageService(repository Repository, persistenceService PersistenceService) StorageService {
 	return defaultStorageService{
 		repository:         repository,
 		persistenceService: persistenceService,
