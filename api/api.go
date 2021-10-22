@@ -53,16 +53,11 @@ func (receiver *Api) Start() error {
 }
 
 func (receiver *Api) Info(w http.ResponseWriter, _ *http.Request) {
-	fmt.Println("info")
-	err := json.NewEncoder(w).Encode(map[string]string{
+	_ = json.NewEncoder(w).Encode(map[string]string{
 		"version":     "0.0.1",
 		"description": "I am authenticating",
 		"name":        "auth api",
 	})
-	if err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
-		return
-	}
 }
 
 func (receiver *Api) routingMiddleware(w http.ResponseWriter, r *http.Request) {
