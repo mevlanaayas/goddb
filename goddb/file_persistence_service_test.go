@@ -28,7 +28,7 @@ func Test_defaultPersistenceService_Read(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			receiver := defaultPersistenceService{
+			receiver := filePersistenceService{
 				config: tt.fields.config,
 			}
 			got, got1 := receiver.Read()
@@ -68,7 +68,7 @@ func Test_defaultPersistenceService_Write(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			receiver := defaultPersistenceService{
+			receiver := filePersistenceService{
 				config: tt.fields.config,
 			}
 			if err := receiver.Write(tt.args.value); (err != nil) != tt.wantErr {
