@@ -1,6 +1,6 @@
 package goddb
 
-type PersistenceService interface {
+type ReadWriter interface {
 	Read() (error, []byte)
 	Write([]byte) error
 }

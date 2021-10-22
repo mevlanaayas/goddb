@@ -82,12 +82,12 @@ func Test_inMemoryRepository_Retrieve(t *testing.T) {
 			receiver := inMemoryRepository{
 				storage: tt.fields.storage,
 			}
-			got, got1 := receiver.Retrieve(tt.args.key)
+			got, got1 := receiver.Get(tt.args.key)
 			if !reflect.DeepEqual(got, tt.want) {
-				t.Errorf("Retrieve() got = %v, want %v", got, tt.want)
+				t.Errorf("Get() got = %v, want %v", got, tt.want)
 			}
 			if got1 != tt.want1 {
-				t.Errorf("Retrieve() got1 = %v, want %v", got1, tt.want1)
+				t.Errorf("Get() got1 = %v, want %v", got1, tt.want1)
 			}
 		})
 	}
@@ -158,12 +158,12 @@ func Test_inMemoryRepository_Get(t *testing.T) {
 			receiver := inMemoryRepository{
 				storage: tt.fields.storage,
 			}
-			err2, values := receiver.Get()
+			err2, values := receiver.GetAll()
 			if err := err2; (err != nil) != tt.wantErr {
-				t.Errorf("Get() error = %v, wantErr %v", err, tt.wantErr)
+				t.Errorf("GetAll() error = %v, wantErr %v", err, tt.wantErr)
 			}
 			if !reflect.DeepEqual(values, storage) {
-				t.Errorf("Get() error. Expected map and actual map is different")
+				t.Errorf("GetAll() error. Expected map and actual map is different")
 			}
 		})
 	}
@@ -196,12 +196,12 @@ func Test_inMemoryRepository_Load(t *testing.T) {
 			receiver := inMemoryRepository{
 				storage: tt.fields.storage,
 			}
-			err2 := receiver.Load(values)
+			err2 := receiver.PutAll(values)
 			if err := err2; (err != nil) != tt.wantErr {
-				t.Errorf("Load() error = %v, wantErr %v", err, tt.wantErr)
+				t.Errorf("PutAll() error = %v, wantErr %v", err, tt.wantErr)
 			}
 			if !reflect.DeepEqual(values, receiver.storage) {
-				t.Errorf("Load() error. Expected map and actual map is different")
+				t.Errorf("PutAll() error. Expected map and actual map is different")
 			}
 		})
 	}

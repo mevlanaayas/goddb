@@ -10,7 +10,7 @@ type defaultPersistenceService struct {
 	config string
 }
 
-func NewDefaultPersistenceService(config string) PersistenceService {
+func NewDefaultPersistenceService(config string) ReadWriter {
 	return defaultPersistenceService{
 		config: config,
 	}

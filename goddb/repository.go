@@ -1,9 +1,9 @@
 package goddb
 
-type Repository interface {
+type GetPutFlusher interface {
+	Get(key string) (error, string)
+	GetAll() (error, map[string]string)
 	Put(key, value string) error
-	Retrieve(key string) (error, string)
+	PutAll(values map[string]string) error
 	Flush() error
-	Get() (error, map[string]string)
-	Load(values map[string]string) error
 }

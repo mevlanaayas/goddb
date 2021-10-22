@@ -6,11 +6,11 @@ import (
 )
 
 type defaultStorageService struct {
-	repository         Repository
-	persistenceService PersistenceService
+	repository         GetPutFlusher
+	persistenceService ReadWriter
 }
 
-func NewDefaultStorageService(repository Repository, persistenceService PersistenceService) StorageService {
+func NewDefaultStorageService(repository GetPutFlusher, persistenceService ReadWriter) StorageService {
 	service := defaultStorageService{
 		repository:         repository,
 		persistenceService: persistenceService,
@@ -36,7 +36,7 @@ func (receiver defaultStorageService) Retrieve(request RetrieveValue) (error, st
 	if err != nil {
 		return NewError(fmt.Sprintf("error while validating retrieve request %v", err.Error()), 100400, err), ""
 	}
-	err, value := receiver.repository.Retrieve(request.Key)
+	err, value := receiver.repository.Get(request.Key)
 	if err != nil {
 		return NewError(fmt.Sprintf("error while retrieving value by key %s %v", request.Key, err.Error()), 100500, err), ""
 	}
@@ -52,7 +52,7 @@ func (receiver defaultStorageService) Flush() error {
 }
 
 func (receiver defaultStorageService) Save() error {
-	err, values := receiver.repository.Get()
+	err, values := receiver.repository.GetAll()
 	if err != nil {
 		return NewError(fmt.Sprintf("error while getting values value by key %v", err.Error()), 100500, err)
 	}
@@ -76,7 +76,7 @@ func (receiver defaultStorageService) Load() error {
 	if err != nil {
 		return NewError(fmt.Sprintf("error while converting json string into key:value map %v", err.Error()), 100500, err)
 	}
-	err = receiver.repository.Load(values)
+	err = receiver.repository.PutAll(values)
 	if err != nil {
 		return NewError(fmt.Sprintf("error while loading values into storage %v", err.Error()), 100500, err)
 	}
