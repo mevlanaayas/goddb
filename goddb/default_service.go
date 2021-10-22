@@ -35,7 +35,11 @@ func (receiver defaultService) Retrieve(request RetrieveValue) (error, string) {
 }
 
 func (receiver defaultService) Flush() error {
-	return receiver.repository.Flush()
+	err := receiver.repository.Flush()
+	if err != nil {
+		return NewError(fmt.Sprintf("error while flushing storage %v", err.Error()), 100500, err)
+	}
+	return nil
 }
 
 func (receiver defaultService) Save() error {

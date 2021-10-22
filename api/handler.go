@@ -81,12 +81,18 @@ func (receiver Handler) Retrieve(w http.ResponseWriter, req *http.Request) {
 }
 
 func (receiver Handler) Flush(w http.ResponseWriter, req *http.Request) {
-	fmt.Println("flush")
-	/*
-		err := receiver.service.Flush()
-		if err != nil {
-			http.Error(w, err.Error(), http.StatusInternalServerError)
-			return
-		}
-	*/
+	err := receiver.service.Flush()
+	if err != nil {
+		w.WriteHeader(http.StatusInternalServerError)
+		_ = json.NewEncoder(w).Encode(map[string]interface{}{
+			"success": false,
+			"message": fmt.Sprintf("error while flushing %v", err.Error()),
+		})
+		return
+	}
+	w.WriteHeader(200)
+	_ = json.NewEncoder(w).Encode(map[string]interface{}{
+		"success": true,
+		"message": "flushed",
+	})
 }
