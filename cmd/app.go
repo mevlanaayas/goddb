@@ -18,7 +18,7 @@ func Run() error {
 	defaultPersistenceService := goddb.NewFilePersistenceService(cfg.App.Path)
 	service := goddb.NewStorageService(inMemoryRepository, defaultPersistenceService)
 
-	ticker := NewTicker(service)
+	ticker := NewTicker(service, cfg.App.SyncInMin)
 	ticker.Schedule()
 
 	handler := api.NewHandler(service)

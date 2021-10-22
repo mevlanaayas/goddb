@@ -12,10 +12,10 @@ type Ticker struct {
 	syncChannel chan bool
 }
 
-func NewTicker(service goddb.StorageService) Ticker {
+func NewTicker(service goddb.StorageService, duration int) Ticker {
 	return Ticker{
 		service:     service,
-		ticker:      time.NewTicker(20 * time.Second),
+		ticker:      time.NewTicker(time.Duration(duration) * time.Minute),
 		syncChannel: make(chan bool),
 	}
 }

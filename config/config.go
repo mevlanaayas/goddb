@@ -17,7 +17,8 @@ type server struct {
 }
 
 type app struct {
-	Path string `json:"path"`
+	Path      string `json:"path"`
+	SyncInMin int    `json:"syncInMin"`
 }
 
 func (receiver *Config) Init() error {
