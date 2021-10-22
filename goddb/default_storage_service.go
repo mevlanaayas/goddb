@@ -11,10 +11,12 @@ type defaultStorageService struct {
 }
 
 func NewDefaultStorageService(repository Repository, persistenceService PersistenceService) StorageService {
-	return defaultStorageService{
+	service := defaultStorageService{
 		repository:         repository,
 		persistenceService: persistenceService,
 	}
+	_ = service.Load()
+	return service
 }
 
 func (receiver defaultStorageService) Put(request SaveValue) error {
@@ -59,7 +61,7 @@ func (receiver defaultStorageService) Save() error {
 		return NewError(fmt.Sprintf("error while converting values into json string %v", err.Error()), 100500, err)
 	}
 	fmt.Println(jsonString)
-	err = receiver.persistenceService.Write(string(jsonString))
+	err = receiver.persistenceService.Write(jsonString)
 	if err != nil {
 		return NewError(fmt.Sprintf("error while persisting storage %v", err.Error()), 100500, err)
 	}
@@ -70,7 +72,7 @@ func (receiver defaultStorageService) Load() error {
 	err, jsonString := receiver.persistenceService.Read()
 	var values map[string]string
 
-	err = json.Unmarshal([]byte(jsonString), &values)
+	err = json.Unmarshal(jsonString, &values)
 	if err != nil {
 		return NewError(fmt.Sprintf("error while converting json string into key:value map %v", err.Error()), 100500, err)
 	}

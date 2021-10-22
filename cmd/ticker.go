@@ -15,7 +15,7 @@ type Ticker struct {
 func NewTicker(service goddb.StorageService) Ticker {
 	return Ticker{
 		service:     service,
-		ticker:      time.NewTicker(15 * time.Second),
+		ticker:      time.NewTicker(20 * time.Second),
 		syncChannel: make(chan bool),
 	}
 }
