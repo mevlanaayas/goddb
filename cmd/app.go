@@ -11,7 +11,7 @@ func Run() error {
 	cfg := config.Config{}
 	err := cfg.Init()
 	if err != nil {
-		return fmt.Errorf("error while parsing config \n\t%v", err)
+		return fmt.Errorf("error while initializing config \n\t%v", err)
 	}
 
 	inMemoryRepository := goddb.NewInMemoryRepository()
