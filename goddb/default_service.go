@@ -1,5 +1,7 @@
 package goddb
 
+import "fmt"
+
 type defaultService struct {
 	repository Repository
 }
@@ -9,7 +11,15 @@ func NewService(repository Repository) Service {
 }
 
 func (receiver defaultService) Put(request SaveValue) error {
-	return receiver.repository.Put(request.Key, request.Value)
+	err := request.Validate()
+	if err != nil {
+		return NewError(fmt.Sprintf("error while validating save request %v", err.Error()), 100400, err)
+	}
+	err = receiver.repository.Put(request.Key, request.Value)
+	if err != nil {
+		return NewError(fmt.Sprintf("error while saving key:value %s:%s %v", request.Key, request.Value, err.Error()), 100500, err)
+	}
+	return nil
 }
 
 func (receiver defaultService) Retrieve(request RetrieveValue) (error, string) {

@@ -20,7 +20,9 @@ func Run() error {
 	ticker := NewTicker(service)
 	ticker.Schedule()
 
-	server := api.NewApi(&cfg, api.Handler{})
+	handler := api.NewHandler(service)
+
+	server := api.NewApi(&cfg, handler)
 	if err := server.Start(); err != nil {
 		return fmt.Errorf("error while starting server \n\t%v", err)
 	}

@@ -1,4 +1,4 @@
-package errors
+package goddb
 
 type Error interface {
 	error
@@ -6,7 +6,7 @@ type Error interface {
 	Message() string
 }
 
-func New(message string, code int, trace error) Error {
+func NewError(message string, code int, trace error) Error {
 	return &InternalError{
 		m: message,
 		c: code,

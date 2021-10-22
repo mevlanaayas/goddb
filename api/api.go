@@ -20,24 +20,24 @@ func NewApi(config *config.Config, handler Handler) *Api {
 	}
 
 	api.routes = append(api.routes, Route{
-		Path:    "/",
+		Path:    "/record",
 		Method:  "POST",
 		Handler: api.handler.Put,
 	})
 	api.routes = append(api.routes, Route{
-		Path:    "/",
+		Path:    "/record",
 		Method:  "GET",
 		Handler: api.handler.Retrieve,
+	})
+	api.routes = append(api.routes, Route{
+		Path:    "/record/flush",
+		Method:  "GET",
+		Handler: api.handler.Flush,
 	})
 	api.routes = append(api.routes, Route{
 		Path:    "/info",
 		Method:  "GET",
 		Handler: api.Info,
-	})
-	api.routes = append(api.routes, Route{
-		Path:    "/flush",
-		Method:  "GET",
-		Handler: api.handler.Flush,
 	})
 
 	http.HandleFunc("/", api.routingMiddleware)
@@ -51,7 +51,7 @@ func (receiver *Api) Start() error {
 	return fmt.Errorf("error while serving http: %v", err)
 }
 
-func (receiver *Api) Info(w http.ResponseWriter, r *http.Request) {
+func (receiver *Api) Info(w http.ResponseWriter, _ *http.Request) {
 	fmt.Println("info")
 	err := json.NewEncoder(w).Encode(map[string]string{
 		"version":     "0.0.1",
@@ -65,6 +65,8 @@ func (receiver *Api) Info(w http.ResponseWriter, r *http.Request) {
 }
 
 func (receiver *Api) routingMiddleware(w http.ResponseWriter, r *http.Request) {
+	contentTypeMiddleware(w, r)
+
 	path := r.URL.Path
 	method := r.Method
 	fmt.Printf("path: %s, method: %s\n", path, method)
@@ -73,4 +75,8 @@ func (receiver *Api) routingMiddleware(w http.ResponseWriter, r *http.Request) {
 			route.Handler(w, r)
 		}
 	}
+}
+
+func contentTypeMiddleware(w http.ResponseWriter, _ *http.Request) {
+	w.Header().Add("Content-Type", "application/json")
 }
