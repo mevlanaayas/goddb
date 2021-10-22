@@ -102,14 +102,16 @@ func Test_inMemoryRepository_Flush(t *testing.T) {
 		storage map[string]string
 	}
 	tests := []struct {
-		name   string
-		fields fields
+		name    string
+		fields  fields
+		wantErr bool
 	}{
 		{
 			name: "flush should remove all key:values from map",
 			fields: fields{
 				storage: storage,
 			},
+			wantErr: false,
 		},
 	}
 	for _, tt := range tests {
@@ -117,7 +119,10 @@ func Test_inMemoryRepository_Flush(t *testing.T) {
 			receiver := &inMemoryRepository{
 				storage: tt.fields.storage,
 			}
-			receiver.Flush()
+			err2 := receiver.Flush()
+			if err := err2; (err != nil) != tt.wantErr {
+				t.Errorf("Flush() error = %v, wantErr %v", err, tt.wantErr)
+			}
 
 			if len(receiver.storage) != 0 {
 				t.Errorf("After flush size we got = %v, want 0", len(storage))
