@@ -55,8 +55,8 @@ func (receiver *Api) Start() error {
 func (receiver *Api) Info(w http.ResponseWriter, _ *http.Request) {
 	_ = json.NewEncoder(w).Encode(map[string]string{
 		"version":     "0.0.1",
-		"description": "I am authenticating",
-		"name":        "auth api",
+		"description": "I am storing",
+		"name":        "goddb storage api",
 	})
 }
 
