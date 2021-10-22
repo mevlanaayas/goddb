@@ -55,14 +55,29 @@ func (receiver Handler) Put(w http.ResponseWriter, req *http.Request) {
 }
 
 func (receiver Handler) Retrieve(w http.ResponseWriter, req *http.Request) {
-	fmt.Println("retrieve")
-	/*
-		err, _ := receiver.service.Retrieve(RetrieveValue{})
-		if err != nil {
-			http.Error(w, err.Error(), http.StatusInternalServerError)
-			return
-		}
-	*/
+	retrieveRequest := goddb.RetrieveValue{Key: req.URL.Query().Get("key")}
+	err, value := receiver.service.Retrieve(retrieveRequest)
+	if err != nil {
+		w.WriteHeader(http.StatusInternalServerError)
+		_ = json.NewEncoder(w).Encode(map[string]interface{}{
+			"success": false,
+			"message": fmt.Sprintf("error while retriving key:value %v", err.Error()),
+		})
+		return
+	}
+	if len(value) < 1 {
+		w.WriteHeader(http.StatusInternalServerError)
+		_ = json.NewEncoder(w).Encode(map[string]interface{}{
+			"success": false,
+			"message": fmt.Sprintf("empty value returned while retriving key:value"),
+		})
+		return
+	}
+	w.WriteHeader(200)
+	_ = json.NewEncoder(w).Encode(map[string]interface{}{
+		"success": true,
+		"message": value,
+	})
 }
 
 func (receiver Handler) Flush(w http.ResponseWriter, req *http.Request) {

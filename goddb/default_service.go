@@ -23,7 +23,15 @@ func (receiver defaultService) Put(request SaveValue) error {
 }
 
 func (receiver defaultService) Retrieve(request RetrieveValue) (error, string) {
-	return receiver.repository.Retrieve(request.Key)
+	err := request.Validate()
+	if err != nil {
+		return NewError(fmt.Sprintf("error while validating retrieve request %v", err.Error()), 100400, err), ""
+	}
+	err, value := receiver.repository.Retrieve(request.Key)
+	if err != nil {
+		return NewError(fmt.Sprintf("error while retrieving value by key %s %v", request.Key, err.Error()), 100500, err), ""
+	}
+	return nil, value
 }
 
 func (receiver defaultService) Flush() error {
