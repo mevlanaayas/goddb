@@ -9,10 +9,15 @@ import (
 
 type Config struct {
 	Server server `json:"server"`
+	App    app    `json:"app"`
 }
 
 type server struct {
 	Port int `json:"port"`
+}
+
+type app struct {
+	Path string `json:"path"`
 }
 
 func (receiver *Config) Init() error {

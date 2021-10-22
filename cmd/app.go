@@ -15,7 +15,7 @@ func Run() error {
 	}
 
 	inMemoryRepository := goddb.NewInMemoryRepository()
-	defaultPersistenceService := goddb.NewFilePersistenceService("tmp")
+	defaultPersistenceService := goddb.NewFilePersistenceService(cfg.App.Path)
 	service := goddb.NewStorageService(inMemoryRepository, defaultPersistenceService)
 
 	ticker := NewTicker(service)
@@ -23,7 +23,7 @@ func Run() error {
 
 	handler := api.NewHandler(service)
 
-	server := api.NewApi(&cfg, handler)
+	server := api.NewApi(cfg, handler)
 	if err := server.Start(); err != nil {
 		return fmt.Errorf("error while starting server \n\t%v", err)
 	}

@@ -9,12 +9,12 @@ import (
 )
 
 type Api struct {
-	config  *config.Config
+	config  config.Config
 	handler Handler
 	routes  []Route
 }
 
-func NewApi(config *config.Config, handler Handler) *Api {
+func NewApi(config config.Config, handler Handler) *Api {
 	api := &Api{
 		config:  config,
 		handler: handler,
@@ -65,7 +65,7 @@ func (receiver *Api) routingMiddleware(w http.ResponseWriter, r *http.Request) {
 
 	path := r.URL.Path
 	method := r.Method
-	fmt.Printf("incomming request path: %s, method: %s \n", path, method)
+	fmt.Printf("%v incomming request path: %s, method: %s \n", time.Now(), path, method)
 	for _, route := range receiver.routes {
 		if route.Path == path && route.Method == method {
 			loggingMiddleware(route, w, r)
