@@ -7,12 +7,12 @@ import (
 )
 
 type Ticker struct {
-	service     goddb.Service
+	service     goddb.StorageService
 	ticker      *time.Ticker
 	syncChannel chan bool
 }
 
-func NewTicker(service goddb.Service) Ticker {
+func NewTicker(service goddb.StorageService) Ticker {
 	return Ticker{
 		service:     service,
 		ticker:      time.NewTicker(15 * time.Second),

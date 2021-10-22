@@ -9,10 +9,10 @@ import (
 )
 
 type Handler struct {
-	service goddb.Service
+	service goddb.StorageService
 }
 
-func NewHandler(service goddb.Service) Handler {
+func NewHandler(service goddb.StorageService) Handler {
 	return Handler{service: service}
 }
 
