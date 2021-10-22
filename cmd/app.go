@@ -16,7 +16,7 @@ func Run() error {
 
 	inMemoryRepository := goddb.NewInMemoryRepository()
 	defaultPersistenceService := goddb.NewDefaultPersistenceService("tmp")
-	service := goddb.NewDefaultStorageService(inMemoryRepository, defaultPersistenceService)
+	service := goddb.NewStorageService(inMemoryRepository, defaultPersistenceService)
 
 	ticker := NewTicker(service)
 	ticker.Schedule()
