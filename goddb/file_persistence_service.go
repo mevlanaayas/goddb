@@ -1,7 +1,9 @@
 package goddb
 
 import (
+	"errors"
 	"fmt"
+	"io/fs"
 	"io/ioutil"
 	"path/filepath"
 	"time"
@@ -24,6 +26,9 @@ func (receiver filePersistenceService) Read() (error, []byte) {
 	}
 	bytes, err := ioutil.ReadFile(filename)
 	if err != nil {
+		if errors.Is(err, fs.ErrNotExist) {
+			return nil, []byte("{}")
+		}
 		return NewError(fmt.Sprintf("error while reading file %v\n\t", err.Error()), 100500, err), nil
 	}
 	return nil, bytes
