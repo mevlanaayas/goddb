@@ -3,7 +3,6 @@ package goddb
 import (
 	"fmt"
 	"io/ioutil"
-	"os"
 	"path/filepath"
 	"time"
 )
@@ -23,7 +22,7 @@ func (receiver filePersistenceService) Read() (error, []byte) {
 	if err != nil {
 		return NewError(fmt.Sprintf("error while generating filename %v\n\t", err.Error()), 100500, err), nil
 	}
-	bytes, err := os.ReadFile(filename)
+	bytes, err := ioutil.ReadFile(filename)
 	if err != nil {
 		return NewError(fmt.Sprintf("error while reading file %v\n\t", err.Error()), 100500, err), nil
 	}
