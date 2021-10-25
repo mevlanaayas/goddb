@@ -3,7 +3,7 @@ package config
 import (
 	"encoding/json"
 	"fmt"
-	"os"
+	"io/ioutil"
 	"path/filepath"
 )
 
@@ -26,7 +26,7 @@ func (receiver *Config) Init() error {
 	if err != nil {
 		return fmt.Errorf("error while finding config path \n\t%v", err)
 	}
-	bytes, err := os.ReadFile(filename)
+	bytes, err := ioutil.ReadFile(filename)
 	if err != nil {
 		return fmt.Errorf("error while reading config file \n\t%v", err)
 	}

@@ -80,7 +80,7 @@ func (receiver Handler) Retrieve(w http.ResponseWriter, req *http.Request) {
 	})
 }
 
-func (receiver Handler) Flush(w http.ResponseWriter, req *http.Request) {
+func (receiver Handler) Flush(w http.ResponseWriter, _ *http.Request) {
 	err := receiver.service.Flush()
 	if err != nil {
 		w.WriteHeader(http.StatusInternalServerError)
