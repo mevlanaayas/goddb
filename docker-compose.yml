@@ -1,0 +1,13 @@
+version: '2.2'
+services:
+  goddb:
+    image: ghcr.io/mevlanaayas/goddb/goddb:latest
+    container_name: goddb
+    ports:
+      - "8099:8099"
+    networks:
+      - default
+    restart: always
+networks:
+  default:
+    driver: bridge
