@@ -3,6 +3,7 @@ package goddb
 import (
 	"encoding/json"
 	"fmt"
+	"time"
 )
 
 type StorageService struct {
@@ -19,6 +20,7 @@ func NewStorageService(repository GetPutFlusher, persistenceService ReadWriter) 
 }
 
 func (receiver StorageService) Put(request SaveValue) error {
+	fmt.Printf("%v StorageService.Put is called \n", time.Now())
 	err := request.Validate()
 	if err != nil {
 		return NewError(fmt.Sprintf("error while validating save request %v", err.Error()), 100400, err)
@@ -31,6 +33,7 @@ func (receiver StorageService) Put(request SaveValue) error {
 }
 
 func (receiver StorageService) Retrieve(request RetrieveValue) (error, string) {
+	fmt.Printf("%v StorageService.Retrieve is called \n", time.Now())
 	err := request.Validate()
 	if err != nil {
 		return NewError(fmt.Sprintf("error while validating retrieve request %v", err.Error()), 100400, err), ""
@@ -43,6 +46,7 @@ func (receiver StorageService) Retrieve(request RetrieveValue) (error, string) {
 }
 
 func (receiver StorageService) Flush() error {
+	fmt.Printf("%v StorageService.Flush is called \n", time.Now())
 	err := receiver.repository.Flush()
 	if err != nil {
 		return NewError(fmt.Sprintf("error while flushing storage %v", err.Error()), 100500, err)
@@ -51,6 +55,7 @@ func (receiver StorageService) Flush() error {
 }
 
 func (receiver StorageService) Save() error {
+	fmt.Printf("%v StorageService.Save is called \n", time.Now())
 	err, values := receiver.repository.GetAll()
 	if err != nil {
 		return NewError(fmt.Sprintf("error while getting values value by key %v", err.Error()), 100500, err)
@@ -67,6 +72,7 @@ func (receiver StorageService) Save() error {
 }
 
 func (receiver StorageService) Load() error {
+	fmt.Printf("%v StorageService.Load is called \n", time.Now())
 	err, jsonString := receiver.persistenceService.Read()
 	if err != nil {
 		return NewError(fmt.Sprintf("error while reading values %v", err.Error()), 100500, err)

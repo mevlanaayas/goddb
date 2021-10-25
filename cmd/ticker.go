@@ -32,6 +32,7 @@ func (receiver Ticker) Schedule() {
 				if err != nil {
 					fmt.Printf("%v error while saving current state %v\n\t", t, err)
 				}
+				fmt.Printf("%v scheduler called handler method \n", t)
 			}
 		}
 	}()

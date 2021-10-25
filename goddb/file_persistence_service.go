@@ -20,6 +20,7 @@ func NewFilePersistenceService(path string) ReadWriter {
 }
 
 func (receiver filePersistenceService) Read() (error, []byte) {
+	fmt.Printf("%v filePersistenceService.Read is called \n", time.Now())
 	filename, err := filepath.Abs(fmt.Sprintf("%s/latest-data.json", receiver.path))
 	if err != nil {
 		return NewError(fmt.Sprintf("error while generating filename %v\n\t", err.Error()), 100500, err), nil
@@ -35,6 +36,7 @@ func (receiver filePersistenceService) Read() (error, []byte) {
 }
 
 func (receiver filePersistenceService) Write(value []byte) error {
+	fmt.Printf("%v filePersistenceService.Write is called \n", time.Now())
 	filename, err := filepath.Abs(fmt.Sprintf("%s/%s-data.json", receiver.path, time.Now().Format("20060102150405")))
 	if err != nil {
 		return NewError(fmt.Sprintf("error while generating filename with ts %v\n\t", err.Error()), 100500, err)
