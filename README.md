@@ -1,3 +1,5 @@
+[![Build image](https://github.com/mevlanaayas/goddb/actions/workflows/ci.yml/badge.svg?branch=master)](https://github.com/mevlanaayas/goddb/actions/workflows/ci.yml)
+
 Goddb Sample App
 ---------------------
 See demo api here: https://www.postman.com/trabz1/workspace/goddb/overview
