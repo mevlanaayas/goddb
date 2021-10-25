@@ -41,6 +41,10 @@ func (receiver filePersistenceService) Write(value []byte) error {
 	}
 	err = ioutil.WriteFile(filename, value, 0644)
 	if err != nil {
+		if errors.Is(err, fs.ErrNotExist) {
+			fmt.Printf("File does not exist %v\n\t", err)
+			return nil
+		}
 		return NewError(fmt.Sprintf("error while writing to file %v\n\t", err.Error()), 100500, err)
 	}
 	filename, err = filepath.Abs(fmt.Sprintf("%s/latest-data.json", receiver.path))
@@ -49,6 +53,10 @@ func (receiver filePersistenceService) Write(value []byte) error {
 	}
 	err = ioutil.WriteFile(filename, value, 0644)
 	if err != nil {
+		if errors.Is(err, fs.ErrNotExist) {
+			fmt.Printf("File does not exist %v\n\t", err)
+			return nil
+		}
 		return NewError(fmt.Sprintf("error while writing to file %v\n\t", err.Error()), 100500, err)
 	}
 	return nil
