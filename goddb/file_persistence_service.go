@@ -2,6 +2,7 @@ package goddb
 
 import (
 	"fmt"
+	"io/ioutil"
 	"os"
 	"path/filepath"
 	"time"
@@ -34,7 +35,7 @@ func (receiver filePersistenceService) Write(value []byte) error {
 	if err != nil {
 		return NewError(fmt.Sprintf("error while generating filename with ts %v\n\t", err.Error()), 100500, err)
 	}
-	err = os.WriteFile(filename, value, 0644)
+	err = ioutil.WriteFile(filename, value, 0644)
 	if err != nil {
 		return NewError(fmt.Sprintf("error while writing to file %v\n\t", err.Error()), 100500, err)
 	}
@@ -42,7 +43,7 @@ func (receiver filePersistenceService) Write(value []byte) error {
 	if err != nil {
 		return NewError(fmt.Sprintf("error while generating latest file filename %v\n\t", err.Error()), 100500, err)
 	}
-	err = os.WriteFile(filename, value, 0644)
+	err = ioutil.WriteFile(filename, value, 0644)
 	if err != nil {
 		return NewError(fmt.Sprintf("error while writing to file %v\n\t", err.Error()), 100500, err)
 	}
