@@ -17,6 +17,10 @@ func Run() error {
 	inMemoryRepository := goddb.NewInMemoryRepository()
 	defaultPersistenceService := goddb.NewFilePersistenceService(cfg.App.Path)
 	service := goddb.NewStorageService(inMemoryRepository, defaultPersistenceService)
+	err = service.Load()
+	if err != nil {
+		return fmt.Errorf("error while loading values into storage \n\t%v", err)
+	}
 
 	ticker := NewTicker(service, cfg.App.SyncInMin)
 	ticker.Schedule()

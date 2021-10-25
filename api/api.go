@@ -68,7 +68,7 @@ func (receiver *Api) routingMiddleware(w http.ResponseWriter, r *http.Request) {
 	fmt.Printf("%v incomming request path: %s, method: %s \n", time.Now(), path, method)
 	for _, route := range receiver.routes {
 		if route.Path == path && route.Method == method {
-			loggingMiddleware(route, w, r)
+			requestLoggingMiddleware(route, w, r)
 		}
 	}
 }
@@ -77,7 +77,7 @@ func contentTypeMiddleware(w http.ResponseWriter, _ *http.Request) {
 	w.Header().Add("Content-Type", "application/json")
 }
 
-func loggingMiddleware(route Route, w http.ResponseWriter, r *http.Request) {
+func requestLoggingMiddleware(route Route, w http.ResponseWriter, r *http.Request) {
 	startTime := time.Now()
 	fmt.Printf("%v request started path: %s, method: %s\n", time.Now(), route.Path, route.Method)
 	route.Handler(w, r)

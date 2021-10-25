@@ -1,5 +1,6 @@
 Goddb Sample App
 ---------------------
+See demo api here: https://www.postman.com/trabz1/workspace/goddb/overview
 
 * Introduction
 * Requirements

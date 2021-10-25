@@ -15,7 +15,6 @@ func NewStorageService(repository GetPutFlusher, persistenceService ReadWriter) 
 		repository:         repository,
 		persistenceService: persistenceService,
 	}
-	_ = service.Load()
 	return service
 }
 
@@ -60,7 +59,6 @@ func (receiver StorageService) Save() error {
 	if err != nil {
 		return NewError(fmt.Sprintf("error while converting values into json string %v", err.Error()), 100500, err)
 	}
-	fmt.Println(jsonString)
 	err = receiver.persistenceService.Write(jsonString)
 	if err != nil {
 		return NewError(fmt.Sprintf("error while persisting storage %v", err.Error()), 100500, err)
@@ -70,6 +68,10 @@ func (receiver StorageService) Save() error {
 
 func (receiver StorageService) Load() error {
 	err, jsonString := receiver.persistenceService.Read()
+	if err != nil {
+		return NewError(fmt.Sprintf("error while reading values %v", err.Error()), 100500, err)
+	}
+
 	var values map[string]string
 
 	err = json.Unmarshal(jsonString, &values)
